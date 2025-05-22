@@ -59,6 +59,7 @@ OffsetList PieceList::NextOffset(OffsetList offsets)
             offsets.pop_back();
         }
     }
+    return offsets;
 }
 
 void PieceList::TryOffsets(OffsetList offsets)
