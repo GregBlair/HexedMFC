@@ -190,11 +190,16 @@
     <ClInclude Include="HexedMFC.h" />
     <ClInclude Include="HexedMFCDoc.h" />
     <ClInclude Include="HexedMFCView.h" />
+    <ClInclude Include="IPiece.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Offset.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Piece.h" />
+    <ClInclude Include="PieceList.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Rotation.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
@@ -205,7 +210,9 @@
     <ClCompile Include="HexedMFC.cpp" />
     <ClCompile Include="HexedMFCDoc.cpp" />
     <ClCompile Include="HexedMFCView.cpp" />
+    <ClCompile Include="IPiece.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Offset.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -213,7 +220,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="PieceList.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
+    <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
