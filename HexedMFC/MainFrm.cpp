@@ -55,6 +55,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
+	BCGPSetVisualManagerSuite(CBCGPVisualManager::BCGPVM_OFFICE_2007_BLACK);
+
 	BOOL bNameValid;
 
 	CMDITabInfo mdiTabParams;
@@ -378,7 +380,7 @@ void CMainFrame::OnApplicationLook(UINT id)
 			break;
 		}
 
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
+		//CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
 		CDockingManager::SetDockingMode(DT_SMART);
 	}
 
