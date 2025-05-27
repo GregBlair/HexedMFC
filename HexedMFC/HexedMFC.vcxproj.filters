@@ -111,19 +111,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IPiece.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Puzzle Engine</Filter>
     </ClCompile>
     <ClCompile Include="Offset.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Puzzle Engine</Filter>
     </ClCompile>
     <ClCompile Include="Piece.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rotation.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Puzzle Engine</Filter>
     </ClCompile>
     <ClCompile Include="PieceList.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Puzzle Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotation.cpp">
+      <Filter>Puzzle Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
