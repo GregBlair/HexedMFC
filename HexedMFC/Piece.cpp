@@ -6,7 +6,6 @@ Piece::Piece(OffsetList offsets, unsigned int number)
 {
     Rotation rotation(offsets);
     // Add the seed offset list as the default orientation.
-    AddRotation(rotation);
     m_number = number;
     BuildRotations(offsets);
 }
@@ -17,7 +16,7 @@ bool Piece::isEquivalent(OffsetList offsets)
     return std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) != m_hashes.end();
 }
 
-void Piece::BuildRotations(OffsetList offsets)
+void Piece::BuildRotations(OffsetList& offsets)
 {   
     // Rotate and add if the rotations produce a unique footprint
     TestFourRotations(Rotation(offsets));
@@ -33,25 +32,25 @@ Rotation Piece::Rotate90(Rotation rotation)
     unsigned int blockCount = (unsigned int)rotation.m_offsets.size();
 
     // Move the piece up to make room for the rotation.
-    for (Offset offset : rotation.m_offsets)
+    for (Offset& offset : rotation.m_offsets)
     {
         rotated.push_back(Offset(offset.m_x, offset.m_y + blockCount));
     }
 
-    // Rotate right 90 around center point and keep track of the min offsets.
+    // Rotate counterclockwise 90 and keep track of the min offsets.
     unsigned int minimumX = blockCount;
     unsigned int minimumY = blockCount;
-    for (Offset offset : rotation.m_offsets)
+    for (Offset& offset : rotated)
     {
         Offset temp = offset;
-        offset.m_x = temp.m_y;
+        offset.m_x = blockCount * 2 - temp.m_y;
         offset.m_y = temp.m_x;
         minimumX = min(minimumX, offset.m_x);
         minimumY = min(minimumY, offset.m_y);
     }
 
     // Translate to the lower left
-    for (Offset offset : rotation.m_offsets)
+    for (Offset& offset : rotated)
     {
         offset.m_x -= minimumX;
         offset.m_y -= minimumY;
@@ -62,27 +61,26 @@ Rotation Piece::Rotate90(Rotation rotation)
 
 Rotation Piece::ReflectOverX(Rotation rotation)
 {
-    OffsetList reflected;
     unsigned int blockCount = (unsigned int)rotation.m_offsets.size();
 
     // To be safe reflect over the line y = block count.
     unsigned int minimumX = blockCount;
     unsigned int minimumY = blockCount;
-    for (Offset offset : rotation.m_offsets)
+    for (Offset& offset : rotation.m_offsets)
     {
-        offset.m_y += blockCount - offset.m_y;
+        offset.m_y = blockCount - offset.m_y;
         minimumX = min(minimumX, offset.m_x);
         minimumY = min(minimumY, offset.m_y);
     }
 
     // Translate to the lower left
-    for (Offset offset : rotation.m_offsets)
+    for (Offset& offset : rotation.m_offsets)
     {
         offset.m_x -= minimumX;
         offset.m_y -= minimumY;
     }
 
-    return Rotation(reflected);
+    return Rotation(rotation);
 }
 
 void Piece::AddRotation(Rotation rotation)
@@ -93,16 +91,16 @@ void Piece::AddRotation(Rotation rotation)
 
 void Piece::TestFourRotations(Rotation rotation)
 {
-    Rotation testRotation(rotation);
-    if ((std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) != m_hashes.end()))
+    Rotation testRotation(rotation.m_offsets);
+    if ((std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) == m_hashes.end()))
     {
         AddRotation(testRotation);
     }
 
-    for (int i = 0; ++i; i < 4)
+    for (int i = 0; i < 4; ++i)
     {
-        testRotation = Rotate90(rotation);
-        if ((std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) != m_hashes.end()))
+        testRotation = Rotate90(testRotation);
+        if ((std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) == m_hashes.end()))
         {
             // Rotating 4 times should produce the same block pattern.
             ASSERT(i != 3);

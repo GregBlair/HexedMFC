@@ -4,13 +4,14 @@
 class PieceList
 {
 public:
-    PieceList(unsigned int blockCount);
+    PieceList();
+    bool SetBlockCount(unsigned int blockCount);
 
 private:
     size_t m_blockCount;
     std::list<Piece> m_pieceList;
     void GeneratePieceList(unsigned int blockCount);
-    OffsetList NextOffset(OffsetList offsets);
-    void TryOffsets(OffsetList offsets);
+    OffsetList NextOffset(OffsetList& offsets);
+    void TryOffsets(OffsetList& offsets);
 };
 

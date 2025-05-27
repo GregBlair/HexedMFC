@@ -4,6 +4,7 @@
 Rotation::Rotation(OffsetList offsets)
 {
     m_offsets = offsets;
+    BuildHash();
 }
 
 void Rotation::BuildHash()

@@ -6,7 +6,8 @@ public:
     OffsetList m_offsets;
     unsigned int m_hash;
 
-    Rotation::Rotation(OffsetList offsets);
+    Rotation(OffsetList offsets);
+    Rotation() = delete;
     void BuildHash();
 };
 
