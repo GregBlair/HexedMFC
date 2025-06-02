@@ -8,20 +8,18 @@ class Piece :
 {
 public:
 
-    unsigned int m_number;
+    size_t m_number;
     RotationList m_rotations;
-    std::list<unsigned int> m_hashes;
+    std::list<size_t> m_hashes;
 
-    Piece(OffsetList offsets, unsigned int number);
+    Piece(OffsetList offsets, size_t number);
     Piece() = delete;
     bool isEquivalent(OffsetList offsets) override;
 
 private:
 
-    void BuildRotations(OffsetList& offsets);
-    static Rotation Rotate90(Rotation rotation);
-    static Rotation ReflectOverX(Rotation rotation);
-    void AddRotation(Rotation rotation);
-    void TestFourRotations(Rotation rotation);
+    void BuildRotations(const OffsetList& offsets);
+    void AddRotation(const Rotation& rotation);
+    void TestFourRotations(Rotation& rotation);
 };
 

@@ -1,5 +1,6 @@
 #pragma once
-#include "Offset.h"
+#include "Rotation.h"
+
 class IPiece
 {
     virtual bool isEquivalent(OffsetList offsets) = 0;

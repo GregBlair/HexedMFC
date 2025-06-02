@@ -1,15 +1,25 @@
 #pragma once
-#include "Offset.h"
+
+#include <list>
+#include <vector>
+
+typedef std::pair<size_t, size_t> Offset;
+typedef std::list<Offset> OffsetList;
+
 class Rotation
 {
 public:
     OffsetList m_offsets;
-    unsigned int m_hash;
+    size_t m_hash;
 
-    Rotation(OffsetList offsets);
+    Rotation(const Rotation& rotation);
+    Rotation(const OffsetList& offsets);
     Rotation() = delete;
     void BuildHash();
+    void Rotate90();
+    void ReflectOverX();
+    void Normalize();
 };
 
-typedef std::list<Rotation> RotationList;
+typedef std::vector<Rotation> RotationList;
 

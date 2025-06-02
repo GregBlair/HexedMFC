@@ -63,9 +63,6 @@
     <ClInclude Include="IPiece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Offset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Piece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,9 +108,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IPiece.cpp">
-      <Filter>Puzzle Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Offset.cpp">
       <Filter>Puzzle Engine</Filter>
     </ClCompile>
     <ClCompile Include="Piece.cpp">

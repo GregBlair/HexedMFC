@@ -13,6 +13,8 @@
 #include "HexedMFCDoc.h"
 #include "HexedMFCView.h"
 
+//#include "CMFCToolBarComboBoxButton"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -36,8 +38,6 @@ END_MESSAGE_MAP()
 
 CHexedMFCView::CHexedMFCView() noexcept
 {
-	// TODO: add construction code here
-
 }
 
 CHexedMFCView::~CHexedMFCView()
