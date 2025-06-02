@@ -13,6 +13,8 @@
 #include "HexedMFCDoc.h"
 #include "HexedMFCView.h"
 
+//#include "CMFCToolBarComboBoxButton"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -25,6 +27,7 @@ IMPLEMENT_DYNCREATE(CHexedMFCView, CView)
 BEGIN_MESSAGE_MAP(CHexedMFCView, CView)
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
+	ON_COMMAND(ID_BUTTON_SELECT_COUNT, &CHexedMFCView::OnSelectBlockCount)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CHexedMFCView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
@@ -35,8 +38,6 @@ END_MESSAGE_MAP()
 
 CHexedMFCView::CHexedMFCView() noexcept
 {
-	// TODO: add construction code here
-
 }
 
 CHexedMFCView::~CHexedMFCView()
@@ -72,6 +73,11 @@ void CHexedMFCView::OnFilePrintPreview()
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview(this);
 #endif
+}
+
+void CHexedMFCView::OnSelectBlockCount()
+{
+	GetDocument()->SetBlockCount(5);
 }
 
 BOOL CHexedMFCView::OnPreparePrinting(CPrintInfo* pInfo)

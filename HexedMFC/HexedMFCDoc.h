@@ -4,6 +4,7 @@
 
 
 #pragma once
+#include "PieceList.h"
 
 
 class CHexedMFCDoc : public CDocument
@@ -15,8 +16,12 @@ protected: // create from serialization only
 // Attributes
 public:
 
+	PieceList m_pieceList;
+
 // Operations
 public:
+
+	bool SetBlockCount(unsigned int blockCount);
 
 // Overrides
 public:

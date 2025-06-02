@@ -152,8 +152,9 @@ BOOL CHexedMFCApp::InitInstance()
 
 int CHexedMFCApp::ExitInstance()
 {
-	//TODO: handle additional resources you may have added
+	// TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
+	BCGCBProCleanUp();
 
 	return CWinAppEx::ExitInstance();
 }

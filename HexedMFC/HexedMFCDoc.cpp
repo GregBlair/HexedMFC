@@ -49,6 +49,11 @@ BOOL CHexedMFCDoc::OnNewDocument()
 	return TRUE;
 }
 
+bool CHexedMFCDoc::SetBlockCount(unsigned int blockCount)
+{
+	return m_pieceList.SetBlockCount(blockCount);
+}
+
 
 
 

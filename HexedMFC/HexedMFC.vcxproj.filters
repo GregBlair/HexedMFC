@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Puzzle Engine">
+      <UniqueIdentifier>{431d8c8e-7b8b-4dc0-a49e-9f5141b0c0f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HexedMFC.h">
@@ -57,6 +60,18 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IPiece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Piece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HexedMFC.cpp">
@@ -91,6 +106,18 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IPiece.cpp">
+      <Filter>Puzzle Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Piece.cpp">
+      <Filter>Puzzle Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="PieceList.cpp">
+      <Filter>Puzzle Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotation.cpp">
+      <Filter>Puzzle Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
