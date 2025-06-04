@@ -8,8 +8,9 @@ PieceList::PieceList()
 
 bool PieceList::SetBlockCount(size_t blockCount)
 {
-    if (blockCount > 2 && blockCount < 7)
+    if (blockCount < 9)
     {
+        m_pieceList.clear();
         m_blockCount = blockCount;
         GeneratePieceList(blockCount);
         return true;
@@ -31,40 +32,6 @@ void PieceList::GeneratePieceList(size_t blockCount)
      }
 }
 
-void PieceList::NextOffsetSnakes(OffsetList& offsets)
-{
-    // Terminate recursion and try the piece.
-    if (offsets.size() == m_blockCount)
-    {
-        TryOffsets(offsets);
-    }
-    else
-    {
-        Offset lastOffset = offsets.back();
-        // Try all directions.
-        // Right
-        if (lastOffset.first < m_blockCount)
-        {
-            HandleNextOffsetSnakes(Offset(lastOffset.first + 1, lastOffset.second), offsets);
-        }
-        // Left
-        if (lastOffset.first > 0)
-        {
-            HandleNextOffsetSnakes(Offset(lastOffset.first - 1, lastOffset.second), offsets);
-        }
-        // Up
-        if (lastOffset.first < m_blockCount)
-        {
-            HandleNextOffsetSnakes(Offset(lastOffset.first, lastOffset.second + 1), offsets);
-        }
-        // Down
-        if (lastOffset.second > 0)
-        {
-            HandleNextOffsetSnakes(Offset(lastOffset.first, lastOffset.second - 1), offsets);
-        }
-    }
-}
-
 void PieceList::NextOffsetGlobs(OffsetList offsets, Offset lastOffset)
 {
     OffsetList addedOffsets;
@@ -72,56 +39,31 @@ void PieceList::NextOffsetGlobs(OffsetList offsets, Offset lastOffset)
     // Right
     if (lastOffset.first < m_blockCount)
     {
-        HandleNextOffsetGlobs(lastOffset, Direction::Right, offsets, addedOffsets);
+        HandleNextOffset(lastOffset, Direction::Right, offsets, addedOffsets);
     }
     // Left
     if (lastOffset.first > 0)
     {
-        HandleNextOffsetGlobs(lastOffset, Direction::Left, offsets, addedOffsets);
+        HandleNextOffset(lastOffset, Direction::Left, offsets, addedOffsets);
     }
     // Up
     if (lastOffset.second < m_blockCount)
     {
-        HandleNextOffsetGlobs(lastOffset, Direction::Up, offsets, addedOffsets);
+        HandleNextOffset(lastOffset, Direction::Up, offsets, addedOffsets);
     }
     // Down
     if (lastOffset.second > 0)
     {
-        HandleNextOffsetGlobs(lastOffset, Direction::Down, offsets, addedOffsets);
+        HandleNextOffset(lastOffset, Direction::Down, offsets, addedOffsets);
     }
-
-    //if (addedOffsets.size() > 0)
-    //{
-    //    // Generate a list of all combinations of the added offsets, with more than 1 element in the list.
-    //    if (addedOffsets.size() + offsets.size() == m_blockCount)
-    //    {
-    //        auto endIter = offsets.end();
-    //        offsets.insert(offsets.end(), addedOffsets.begin(), addedOffsets.end());
-    //        TryOffsets(offsets);
-    //        for (int i = 0; i < addedOffsets.size(); ++i)
-    //        {
-    //            offsets.pop_back();
-    //        }
-    //        offsets.erase(endIter, offsets.end());
-    //    }
-    //    else if (addedOffsets.size() + offsets.size() < m_blockCount)
-    //    {
-    //        // Add all blocks to the offsets and try each one as the last offset
-    //        offsets.splice(offsets.end(), addedOffsets);
-    //        for (Offset offset : addedOffsets)
-    //        {
-    //            NextOffsetGlobs(offsets, offset);
-    //        }
-    //    }
-    //}
 
     // Need to try all possible combinations of the offsets added at this level.
     std::list<OffsetList> combos = GenerateViableCombos(addedOffsets);
 
-    for (OffsetList offsetList : combos)
+    for (OffsetList& offsetList : combos)
     {
         size_t count = offsetList.size();
-        for (Offset offset : offsetList)
+        for (Offset& offset : offsetList)
         {
             // Add the offsets to the current list and try again.
             // Copy the offset lists so they can be reused.
@@ -138,34 +80,13 @@ void PieceList::NextOffsetGlobs(OffsetList offsets, Offset lastOffset)
             }
         }
     }
-
-    //if (offsets.size() == m_blockCount)
-    //{
-    //    TryOffsets(offsets);
-    //}
-    //else
-    //{
-    //    // Need to try every offset added at this level
-    //    for (Offset offset : addedOffsets)
-    //    {
-    //        NextOffsetGlobs(offsets, offset);
-    //    }
-    //}
-
-    //// Clean up this level
-    //while (addedOffsets.size() > 0)
-    //{
-    //    offsets.pop_back();
-    //    NextOffsetGlobs(offsets, addedOffsets.back());
-    //    addedOffsets.pop_back();
-    //}
 }
 
 void PieceList::TryOffsets(OffsetList& offsets)
 {
     // Look for an equivalent piece in the existing pieces.
     bool found = false;
-    for (Piece piece : m_pieceList)
+    for (const Piece& piece : m_pieceList)
     {
         if (piece.isEquivalent(offsets))
         {
@@ -180,19 +101,7 @@ void PieceList::TryOffsets(OffsetList& offsets)
 }
 
 // Returns the count of blocks added, 1 or 0.
-void PieceList::HandleNextOffsetSnakes(Offset& nextOffset, OffsetList& offsets)
-{
-    // If the offset is not already occupied.
-    if (std::find(offsets.begin(), offsets.end(), nextOffset) == offsets.end())
-    {
-        offsets.push_back(nextOffset);
-        NextOffsetSnakes(offsets);
-        offsets.pop_back();
-    }
-}
-
-// Returns the count of blocks added, 1 or 0.
-void PieceList::HandleNextOffsetGlobs(const Offset& lastOffset, Direction direction, OffsetList offsets, OffsetList& addedOffsets)
+void PieceList::HandleNextOffset(const Offset& lastOffset, Direction direction, OffsetList offsets, OffsetList& addedOffsets)
 {
     Offset nextOffset;
     switch (direction)
