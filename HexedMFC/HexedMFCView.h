@@ -41,6 +41,14 @@ protected:
 protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnSelectBlockCount();
+	afx_msg void OnSelectBlockCount1();
+	afx_msg void OnSelectBlockCount2();
+	afx_msg void OnSelectBlockCount3();
+	afx_msg void OnSelectBlockCount4();
+	afx_msg void OnSelectBlockCount5();
+	afx_msg void OnSelectBlockCount6();
+	afx_msg void OnSelectBlockCount7();
+	afx_msg void OnSelectBlockCount8();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()

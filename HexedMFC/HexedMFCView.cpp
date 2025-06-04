@@ -28,8 +28,17 @@ BEGIN_MESSAGE_MAP(CHexedMFCView, CView)
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_BUTTON_SELECT_COUNT, &CHexedMFCView::OnSelectBlockCount)
+	ON_COMMAND(ID_PIECECOUNT_1, &CHexedMFCView::OnSelectBlockCount)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CHexedMFCView::OnFilePrintPreview)
+	ON_COMMAND(ID_PIECECOUNT_1, &CHexedMFCView::OnSelectBlockCount1)
+	ON_COMMAND(ID_PIECECOUNT_2, &CHexedMFCView::OnSelectBlockCount2)
+	ON_COMMAND(ID_PIECECOUNT_3, &CHexedMFCView::OnSelectBlockCount3)
+	ON_COMMAND(ID_PIECECOUNT_4, &CHexedMFCView::OnSelectBlockCount4)
+	ON_COMMAND(ID_PIECECOUNT_5, &CHexedMFCView::OnSelectBlockCount5)
+	ON_COMMAND(ID_PIECECOUNT_6, &CHexedMFCView::OnSelectBlockCount6)
+	ON_COMMAND(ID_PIECECOUNT_7, &CHexedMFCView::OnSelectBlockCount7)
+	ON_COMMAND(ID_PIECECOUNT_8, &CHexedMFCView::OnSelectBlockCount8)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
@@ -78,6 +87,46 @@ void CHexedMFCView::OnFilePrintPreview()
 void CHexedMFCView::OnSelectBlockCount()
 {
 	GetDocument()->SetBlockCount(5);
+}
+
+void CHexedMFCView::OnSelectBlockCount1()
+{
+	GetDocument()->SetBlockCount(1);
+}
+
+void CHexedMFCView::OnSelectBlockCount2()
+{
+	GetDocument()->SetBlockCount(2);
+}
+
+void CHexedMFCView::OnSelectBlockCount3()
+{
+	GetDocument()->SetBlockCount(3);
+}
+
+void CHexedMFCView::OnSelectBlockCount4()
+{
+	GetDocument()->SetBlockCount(4);
+}
+
+void CHexedMFCView::OnSelectBlockCount5()
+{
+	GetDocument()->SetBlockCount(5);
+}
+
+void CHexedMFCView::OnSelectBlockCount6()
+{
+	GetDocument()->SetBlockCount(6);
+}
+
+void CHexedMFCView::OnSelectBlockCount7()
+{
+	GetDocument()->SetBlockCount(7);
+}
+
+void CHexedMFCView::OnSelectBlockCount8()
+{
+	GetDocument()->SetBlockCount(8);
 }
 
 BOOL CHexedMFCView::OnPreparePrinting(CPrintInfo* pInfo)

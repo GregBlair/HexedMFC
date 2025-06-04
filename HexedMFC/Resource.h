@@ -88,13 +88,21 @@
 #define ID_BUTTON_BLOCKS                32772
 #define ID_CHOOSE_BLOCKS                32773
 #define ID_BUTTON_SELECT_COUNT          32774
+#define ID_PIECECOUNT_1                 32775
+#define ID_PIECECOUNT_2                 32776
+#define ID_PIECECOUNT_3                 32777
+#define ID_PIECECOUNT_4                 32778
+#define ID_PIECECOUNT_5                 32779
+#define ID_PIECECOUNT_6                 32780
+#define ID_PIECECOUNT_7                 32781
+#define ID_PIECECOUNT_8                 32782
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        310
-#define _APS_NEXT_COMMAND_VALUE         32775
+#define _APS_NEXT_COMMAND_VALUE         32783
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
