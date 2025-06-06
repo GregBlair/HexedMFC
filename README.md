@@ -12,5 +12,5 @@ The goal of this project is to generate all the possible pieces for a particular
 
 Note: Block counts 1 and 2 are trivial with only one possible piece.  8 blocks can enclose an empty space.  I plan to explore higher block counts if the 7 block solutions are interesting.
 
-Note: Over the decades, I have only generated 1 solution using the actual puzzle.  My brain always gets distracted with the ideas brough forth in this code solution.
+Note: Over the decades, I have only generated 1 solution using the actual puzzle.  My brain always gets distracted with the ideas brought forth in this code solution.
 A good friend had his first solution in about 3 minutes, also providing some motivation. 
