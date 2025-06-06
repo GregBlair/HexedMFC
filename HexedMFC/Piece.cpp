@@ -10,7 +10,7 @@ Piece::Piece(OffsetList offsets, size_t number)
     BuildRotations(offsets);
 }
 
-bool Piece::isEquivalent(OffsetList offsets)
+bool Piece::isEquivalent(OffsetList offsets) const
 {
     Rotation testRotation(offsets);
     return std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) != m_hashes.end();

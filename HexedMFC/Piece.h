@@ -14,7 +14,7 @@ public:
 
     Piece(OffsetList offsets, size_t number);
     Piece() = delete;
-    bool isEquivalent(OffsetList offsets) override;
+    bool isEquivalent(OffsetList offsets) const override;
 
 private:
 
