@@ -55,8 +55,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	BCGPSetVisualManagerSuite(CBCGPVisualManager::BCGPVM_OFFICE_2007_BLACK);
-
 	BOOL bNameValid;
 
 	CMDITabInfo mdiTabParams;

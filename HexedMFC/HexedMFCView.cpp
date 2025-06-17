@@ -19,6 +19,7 @@
 #define new DEBUG_NEW
 #endif
 
+#define ID_GRIDCTRL 1
 
 // CHexedMFCView
 
@@ -47,6 +48,10 @@ END_MESSAGE_MAP()
 
 CHexedMFCView::CHexedMFCView() noexcept
 {
+	// construct the Grid object           
+	// Create the Windows control and attach it to the Grid object
+	//m_wndGrid.Create(WS_CHILD | WS_VISIBLE | WS_BORDER, rectGrid, this, IDC_GRDID);
+	// Insert columns:
 }
 
 CHexedMFCView::~CHexedMFCView()

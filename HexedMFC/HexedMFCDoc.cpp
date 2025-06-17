@@ -51,6 +51,7 @@ BOOL CHexedMFCDoc::OnNewDocument()
 
 bool CHexedMFCDoc::SetBlockCount(unsigned int blockCount)
 {
+	m_pieceList.TestCombos();
 	return m_pieceList.SetBlockCount(blockCount);
 }
 

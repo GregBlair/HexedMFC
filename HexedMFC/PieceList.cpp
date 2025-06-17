@@ -6,6 +6,15 @@ PieceList::PieceList()
     m_blockCount = 0;
 }
 
+ void PieceList::TestCombos()
+{
+     // Build list of sequential integers and watch
+     std::list<int> testList{ 1, 2, 3 };
+     std::list<std::list<int>> testResults;
+     std::list<std::list<int>> retVal;
+     TestAddToCombinations(testResults, retVal, testList);
+}
+
 bool PieceList::SetBlockCount(size_t blockCount)
 {
     if (blockCount < 9)
@@ -159,25 +168,29 @@ std::list<OffsetList> PieceList::GenerateViableCombos(const OffsetList& addedOff
 {
     std::list<OffsetList> retVal;
     // Create two list copies and start the recursion.
-    std::list<OffsetList> transfered;
     AddToCombinations(retVal, OffsetList(addedOffsets));
     return retVal;
 }
 
 std::list<OffsetList> PieceList::AddToCombinations(std::list<OffsetList>& results, OffsetList right)
 {
-    results.push_back(right);
     std::list<OffsetList> retVal;
-    // Add each of the transferred lists to each of the subsequent lists.
-    if (right.size() > 1)
+    // If we just have one piece left, add a list with just that piece and end the recursion.
+    if (right.size() == 1)
+    {
+        results.push_back(right);
+        retVal.push_back(right);
+    }
+    else
     {
         OffsetList left;
-        // Move one element from right to left
+        // Move one element from rightList to left
         left.splice(left.end(), right, right.begin());
-        // Add both lists to the results.
+        //// Add both lists to the results.
         results.push_back(left);
-        results.push_back(right);
+        //results.push_back(rightList);
         retVal.push_back(left);
+        retVal.push_back(right);
         // Add the left offset to every item from the next recursive call.
         // Add each transferred list to every subsequent list.
         for (OffsetList& offsetList : AddToCombinations(results, right))
@@ -185,6 +198,64 @@ std::list<OffsetList> PieceList::AddToCombinations(std::list<OffsetList>& result
             OffsetList temp(left);
             // Put the left together with every result from the subsequent calls;
             temp.insert(temp.end(), offsetList.begin(), offsetList.end());
+            results.push_back(temp);
+            retVal.push_back(temp);
+        }
+    }
+    //// Add each of the transferred lists to each of the subsequent lists.
+    //if (rightList.size() > 1)
+    //{
+    //    OffsetList left;
+    //    // Move one element from rightList to left
+    //    left.splice(left.end(), rightList, rightList.begin());
+    //    // Add both lists to the results.
+    //    results.push_back(left);
+    //    results.push_back(rightList);
+    //    retVal.push_back(left);
+    //    // Add the left offset to every item from the next recursive call.
+    //    // Add each transferred list to every subsequent list.
+    //    for (OffsetList& offsetList : AddToCombinations(results, rightList))
+    //    {
+    //        OffsetList temp(left);
+    //        // Put the left together with every result from the subsequent calls;
+    //        temp.insert(temp.end(), offsetList.begin(), offsetList.end());
+    //        results.push_back(temp);
+    //        retVal.push_back(temp);
+    //    }
+    //}
+
+    return retVal;
+}
+
+std::list<std::list<int>> PieceList::TestAddToCombinations(std::list<std::list<int>>& results, std::list<std::list<int>>& retVal, std::list<int> rightList)
+{
+    // If we just have one int left, add a list with just that piece and end the recursion.
+    if (rightList.size() == 1)
+    {
+        results.push_back(rightList);
+        retVal.push_back(rightList);
+    }
+    else
+    {
+        auto beginIter = rightList.begin();
+        auto endIter = rightList.end();
+        //retVal.insert(retVal.end(), rightList.begin(), rightList.end());
+        std::list<int> left;
+        // Move one element from rightList to left
+        left.splice(left.end(), rightList, rightList.begin());
+        //// Add both lists to the results.
+        results.push_back(left);
+        //results.push_back(rightList);
+        retVal.push_back(left);
+        // Add the left offset to every item from the next recursive call.
+        // Add each transferred list to every subsequent list.
+        for (std::list<int>& integerList : TestAddToCombinations(results, retVal, rightList))
+        {
+            std::list<int> temp(left);
+            // Put the left together with every result from the subsequent calls;
+            auto beginIter = integerList.begin();
+            auto endIter = integerList.end();
+            temp.insert(temp.end(), integerList.begin(), integerList.end());
             results.push_back(temp);
             retVal.push_back(temp);
         }

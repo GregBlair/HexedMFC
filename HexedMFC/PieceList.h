@@ -6,6 +6,7 @@ class PieceList
 public:
     PieceList();
     bool SetBlockCount(size_t blockCount);
+    void TestCombos();
 
 private:
     enum Direction
@@ -24,5 +25,6 @@ private:
     void HandleNextOffset(Direction direction, OffsetList offsets, OffsetList& addedOffsets);
     std::list<OffsetList> GenerateViableCombos(const OffsetList& addedOffsets);
     std::list<OffsetList> AddToCombinations(std::list<OffsetList>& results, OffsetList right);
+    std::list<std::list<int>> TestAddToCombinations(std::list<std::list<int>>& results, std::list<std::list<int>>& retVal, std::list<int> right);
 };
 
