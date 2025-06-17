@@ -73,4 +73,70 @@ void Rotation::Normalize()
     }
 
     BuildHash();
+    BuildBorder(blockCount);
+}
+
+void Rotation::BuildBorder(size_t blockCount)
+{
+    // For every offset, look in all 4 directions to see if we find a value not in either list.
+    for (const Offset& offset : m_offsets)
+    {
+        TestOffset(Direction::Right, offset, blockCount);
+        TestOffset(Direction::Left, offset, blockCount);
+        TestOffset(Direction::Up, offset, blockCount);
+        TestOffset(Direction::Down, offset, blockCount);
+    }
+}
+
+void Rotation::TestOffset(Direction direction, const Offset& offset, size_t blockCount)
+{
+    Offset testOffset;
+    bool validDirection = false;
+
+    switch (direction)
+    {
+    case Right:
+    {
+        if (offset.first < blockCount)
+        {
+            testOffset = Offset(offset.first + 1, offset.second);
+            validDirection = true;
+        }
+        break;
+    }
+    case Left:
+    {
+        if (offset.first > 0)
+        {
+            testOffset = Offset(offset.first - 1, offset.second);
+            validDirection = true;
+        }
+        break;
+    }
+    case Up:
+    {
+        if (offset.second < blockCount)
+        {
+            testOffset = Offset(offset.first, offset.second + 1);
+            validDirection = true;
+        }
+        break;
+    }
+    case Down:
+    {
+        if (offset.second > 0)
+        {
+            testOffset = Offset(offset.first, offset.second - 1);
+            validDirection = true;
+        }
+        break;
+    }
+    }
+
+    if (validDirection &&
+        std::find(m_offsets.begin(), m_offsets.end(), testOffset) == m_offsets.end() &&
+        std::find(m_borderingOffsets.begin(), m_borderingOffsets.end(), testOffset) == m_borderingOffsets.end())
+    {
+        m_borderingOffsets.push_back(testOffset);
+    }
 }
