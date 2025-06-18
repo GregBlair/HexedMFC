@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "PieceList.h"
 
+#include <iostream>
+#include <sstream>
+
 PieceList::PieceList()
 {
     m_blockCount = 0;
@@ -9,10 +12,28 @@ PieceList::PieceList()
  void PieceList::TestCombos()
 {
      // Build list of sequential integers and watch
-     std::list<int> testList{ 1, 2, 3 };
-     std::list<std::list<int>> testResults;
-     std::list<std::list<int>> retVal;
-     TestAddToCombinations(testResults, retVal, testList);
+     std::list<int> testList;
+     for (int i = 1; i < 5; ++i)
+     {
+         testList.push_back(i);
+         std::list<std::list<int>> testResults = GetCombinations(testList);
+         std::stringstream str;
+         str << std::endl << "Source list size: " << testList.size() << " Combos size: " << testResults.size() << "  ";
+         TRACE(str.str().c_str());
+         str.str(std::string());
+         str << std::endl;
+         for (const std::list<int>& temp : testResults)
+         {
+             str << "(";
+             for (int combinations : temp)
+             {
+                 str << " " << combinations;
+             }
+             str << " )" << std::endl;
+             TRACE(str.str().c_str());
+             str.str(std::string());
+         }
+     }
 }
 
 bool PieceList::SetBlockCount(size_t blockCount)
@@ -33,16 +54,16 @@ bool PieceList::SetBlockCount(size_t blockCount)
 void PieceList::GeneratePieceList(size_t blockCount)
 {
     // Just one seed location should do it.
-    size_t cooridinateValue = blockCount / 2;
+    size_t cooridinateValue = (blockCount - 1) / 2;
     Offset seedOffset(cooridinateValue, cooridinateValue);
     OffsetList offsets{ seedOffset };
     NextOffset(offsets);
     size_t firstTry = m_pieceList.size();
     m_pieceList.clear();
     // Try all possible offset lists for the block count.
-    for (int x = 0; x < blockCount / 2; ++x)
+    for (int x = 0; x <= blockCount / 2; ++x)
     {
-        Offset seedOffset(cooridinateValue, cooridinateValue);
+        Offset seedOffset(x, x);
         OffsetList offsets{ seedOffset };
         NextOffset(offsets);
      }
@@ -62,7 +83,7 @@ void PieceList::NextOffset(OffsetList offsets)
     if (addedOffsets.size() > 0)
     {
         // Need to try all possible combinations of the offsets added at this level.
-        std::list<OffsetList> combos = GenerateViableCombos(addedOffsets);
+        std::list<OffsetList> combos = GetCombinations(addedOffsets);
 
         for (const OffsetList& offsetList : combos)
         {
@@ -164,101 +185,35 @@ void PieceList::HandleNextOffset(Direction direction, OffsetList offsets, Offset
     }
 }
 
-std::list<OffsetList> PieceList::GenerateViableCombos(const OffsetList& addedOffsets)
+template<typename T>
+std::list<std::list<T>> PieceList::GetCombinations(std::list<T> rightList)
 {
-    std::list<OffsetList> retVal;
-    // Create two list copies and start the recursion.
-    AddToCombinations(retVal, OffsetList(addedOffsets));
-    return retVal;
-}
+    std::list<std::list<T>> retVal;
 
-std::list<OffsetList> PieceList::AddToCombinations(std::list<OffsetList>& results, OffsetList right)
-{
-    std::list<OffsetList> retVal;
-    // If we just have one piece left, add a list with just that piece and end the recursion.
-    if (right.size() == 1)
-    {
-        results.push_back(right);
-        retVal.push_back(right);
-    }
-    else
-    {
-        OffsetList left;
-        // Move one element from rightList to left
-        left.splice(left.end(), right, right.begin());
-        //// Add both lists to the results.
-        results.push_back(left);
-        //results.push_back(rightList);
-        retVal.push_back(left);
-        retVal.push_back(right);
-        // Add the left offset to every item from the next recursive call.
-        // Add each transferred list to every subsequent list.
-        for (OffsetList& offsetList : AddToCombinations(results, right))
-        {
-            OffsetList temp(left);
-            // Put the left together with every result from the subsequent calls;
-            temp.insert(temp.end(), offsetList.begin(), offsetList.end());
-            results.push_back(temp);
-            retVal.push_back(temp);
-        }
-    }
-    //// Add each of the transferred lists to each of the subsequent lists.
-    //if (rightList.size() > 1)
-    //{
-    //    OffsetList left;
-    //    // Move one element from rightList to left
-    //    left.splice(left.end(), rightList, rightList.begin());
-    //    // Add both lists to the results.
-    //    results.push_back(left);
-    //    results.push_back(rightList);
-    //    retVal.push_back(left);
-    //    // Add the left offset to every item from the next recursive call.
-    //    // Add each transferred list to every subsequent list.
-    //    for (OffsetList& offsetList : AddToCombinations(results, rightList))
-    //    {
-    //        OffsetList temp(left);
-    //        // Put the left together with every result from the subsequent calls;
-    //        temp.insert(temp.end(), offsetList.begin(), offsetList.end());
-    //        results.push_back(temp);
-    //        retVal.push_back(temp);
-    //    }
-    //}
-
-    return retVal;
-}
-
-std::list<std::list<int>> PieceList::TestAddToCombinations(std::list<std::list<int>>& results, std::list<std::list<int>>& retVal, std::list<int> rightList)
-{
-    // If we just have one int left, add a list with just that piece and end the recursion.
+    // If we just have one value in the supplied list, add a list with that value and end the recursion.
     if (rightList.size() == 1)
     {
-        results.push_back(rightList);
-        retVal.push_back(rightList);
+        retVal.push_back(rightList); // This element will appear at the end of the results.
     }
     else
     {
-        auto beginIter = rightList.begin();
-        auto endIter = rightList.end();
-        //retVal.insert(retVal.end(), rightList.begin(), rightList.end());
-        std::list<int> left;
-        // Move one element from rightList to left
-        left.splice(left.end(), rightList, rightList.begin());
-        //// Add both lists to the results.
-        results.push_back(left);
-        //results.push_back(rightList);
-        retVal.push_back(left);
-        // Add the left offset to every item from the next recursive call.
-        // Add each transferred list to every subsequent list.
-        for (std::list<int>& integerList : TestAddToCombinations(results, retVal, rightList))
+        std::list<T> leftList;
+        // Split off the first element from the right list.
+        leftList.splice(leftList.end(), rightList, rightList.begin());
+        // Add the list of one element to the results
+        retVal.push_back(leftList);
+        // Get results from the remaining elements.
+        std::list<std::list<T>> combinations = GetCombinations(rightList);
+        for (const std::list<T>& valueList : combinations)
         {
-            std::list<int> temp(left);
-            // Put the left together with every result from the subsequent calls;
-            auto beginIter = integerList.begin();
-            auto endIter = integerList.end();
-            temp.insert(temp.end(), integerList.begin(), integerList.end());
-            results.push_back(temp);
+            std::list<T> temp(leftList);
+            // Append every result to the left list of one value.
+            temp.insert(temp.end(), valueList.begin(), valueList.end());
+            // Add this list to the results
             retVal.push_back(temp);
         }
+        // Add in the results from the last recursion.
+        retVal.splice(retVal.end(), combinations); // This preserves the order from the input list.
     }
 
     return retVal;

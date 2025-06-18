@@ -18,7 +18,7 @@ void Rotation::BuildHash()
     m_hash = 0;
     for (Offset offset : m_offsets)
     {
-        m_hash += 1009 * offset.first * offset.first + 10013 * offset.second * offset.second;
+        m_hash += 1009 * offset.first * offset.first * offset.first + 10013 * offset.second * offset.second;
     }
 }
 
