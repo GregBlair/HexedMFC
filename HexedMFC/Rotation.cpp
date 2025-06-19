@@ -59,19 +59,24 @@ void Rotation::Normalize()
     // Find the minimum x and y values.  Start way out since some blocks might be kicked way out.
     size_t minimumX = blockCount * 3;
     size_t minimumY = blockCount * 3;
-    for (Offset& offset : m_offsets)
+    for (const Offset& offset : m_offsets)
     {
         minimumX = min(minimumX, offset.first);
         minimumY = min(minimumY, offset.second);
     }
 
-    // Translate to the lower left
+    // Translate to the lower left and calculate the max offset.
+    size_t maximumX = 0;
+    size_t maximumY = 0;
     for (Offset& offset : m_offsets)
     {
         offset.first -= minimumX;
         offset.second -= minimumY;
+        maximumX = max(maximumX, offset.first);
+        maximumY = max(maximumY, offset.second);
     }
 
+    m_maxOffset = Offset(maximumX, maximumY);
     BuildHash();
     BuildBorder(blockCount);
 }

@@ -9,33 +9,6 @@ PieceList::PieceList()
     m_blockCount = 0;
 }
 
- void PieceList::TestCombos()
-{
-     // Build list of sequential integers and watch
-     std::list<int> testList;
-     for (int i = 1; i < 5; ++i)
-     {
-         testList.push_back(i);
-         std::list<std::list<int>> testResults = GetCombinations(testList);
-         std::stringstream str;
-         str << std::endl << "Source list size: " << testList.size() << " Combos size: " << testResults.size() << "  ";
-         TRACE(str.str().c_str());
-         str.str(std::string());
-         str << std::endl;
-         for (const std::list<int>& temp : testResults)
-         {
-             str << "(";
-             for (int combinations : temp)
-             {
-                 str << " " << combinations;
-             }
-             str << " )" << std::endl;
-             TRACE(str.str().c_str());
-             str.str(std::string());
-         }
-     }
-}
-
 bool PieceList::SetBlockCount(size_t blockCount)
 {
     if (blockCount < 9)
@@ -48,6 +21,33 @@ bool PieceList::SetBlockCount(size_t blockCount)
     else
     {
         return false;
+    }
+}
+
+void PieceList::TestCombos()
+{
+    // Build list of sequential integers and watch
+    std::list<int> testList;
+    for (int i = 1; i < 5; ++i)
+    {
+        testList.push_back(i);
+        std::list<std::list<int>> testResults = GetCombinations(testList);
+        std::stringstream str;
+        str << std::endl << "Source list size: " << testList.size() << " Combos size: " << testResults.size() << "  ";
+        TRACE(str.str().c_str());
+        str.str(std::string());
+        str << std::endl;
+        for (const std::list<int>& temp : testResults)
+        {
+            str << "(";
+            for (int combinations : temp)
+            {
+                str << " " << combinations;
+            }
+            str << " )" << std::endl;
+            TRACE(str.str().c_str());
+            str.str(std::string());
+        }
     }
 }
 
@@ -185,36 +185,37 @@ void PieceList::HandleNextOffset(Direction direction, OffsetList offsets, Offset
     }
 }
 
-template<typename T>
-std::list<std::list<T>> PieceList::GetCombinations(std::list<T> rightList)
-{
-    std::list<std::list<T>> retVal;
+    template<typename T>
+    std::list<std::list<T>> PieceList::GetCombinations(std::list<T> rightList)
+    {
+        std::list<std::list<T>> retVal;
 
-    // If we just have one value in the supplied list, add a list with that value and end the recursion.
-    if (rightList.size() == 1)
-    {
-        retVal.push_back(rightList); // This element will appear at the end of the results.
-    }
-    else
-    {
-        std::list<T> leftList;
-        // Split off the first element from the right list.
-        leftList.splice(leftList.end(), rightList, rightList.begin());
-        // Add the list of one element to the results
-        retVal.push_back(leftList);
-        // Get results from the remaining elements.
-        std::list<std::list<T>> combinations = GetCombinations(rightList);
-        for (const std::list<T>& valueList : combinations)
+        if (rightList.size() == 1)
         {
-            std::list<T> temp(leftList);
-            // Append every result to the left list of one value.
-            temp.insert(temp.end(), valueList.begin(), valueList.end());
-            // Add this list to the results
-            retVal.push_back(temp);
+            // Add a list with the last element.
+            // This element will appear at the end of the results.
+            retVal.push_back(rightList);
         }
-        // Add in the results from the last recursion.
-        retVal.splice(retVal.end(), combinations); // This preserves the order from the input list.
-    }
+        else
+        {
+            std::list<T> leftList;
+            // Split off the first element from the right list.
+            leftList.splice(leftList.end(), rightList, rightList.begin());
+            // Add the list of one element to the results
+            retVal.push_back(leftList);
+            // Get results from the remaining elements.
+            std::list<std::list<T>> combinations = GetCombinations(rightList);
+            for (const std::list<T>& valueList : combinations)
+            {
+                std::list<T> temp(leftList);
+                // Append every result to the left list of one value.
+                temp.insert(temp.end(), valueList.begin(), valueList.end());
+                // Add this list to the results
+                retVal.push_back(temp);
+            }
+            // Add in the results from the last recursion.
+            retVal.splice(retVal.end(), combinations); // This preserves the order from the input list.
+        }
 
-    return retVal;
-}
+        return retVal;
+    }

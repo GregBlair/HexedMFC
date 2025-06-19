@@ -12,6 +12,7 @@ public:
     OffsetList m_offsets;
     OffsetList m_borderingOffsets;
     size_t m_hash;
+    Offset m_maxOffset;
 
     Rotation(const Rotation& rotation);
     Rotation(const OffsetList& offsets);
