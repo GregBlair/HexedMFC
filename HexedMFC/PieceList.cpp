@@ -61,7 +61,7 @@ void PieceList::GeneratePieceList(size_t blockCount)
     size_t firstTry = m_pieceList.size();
     m_pieceList.clear();
     // Try all possible offset lists for the block count.
-    for (int x = 0; x <= blockCount / 2; ++x)
+    for (int x = 0; x <= (blockCount - 1) / 2; ++x)
     {
         Offset seedOffset(x, x);
         OffsetList offsets{ seedOffset };
@@ -122,7 +122,6 @@ void PieceList::TryOffsets(OffsetList& offsets)
     }
 }
 
-// Returns the count of blocks added, 1 or 0.
 void PieceList::HandleNextOffset(Direction direction, OffsetList offsets, OffsetList& addedOffsets)
 {
     Offset lastOffset = offsets.back();
