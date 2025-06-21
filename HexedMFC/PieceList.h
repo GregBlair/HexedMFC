@@ -1,12 +1,16 @@
 #pragma once
+
 #include <list>
 #include "Piece.h"
+
 class PieceList
 {
 public:
     PieceList();
     bool SetBlockCount(size_t blockCount);
     void TestCombos();
+    size_t GetBlockCount() const { return m_blockCount; }
+    const std::list<Piece>& GetPieceList() const{ return m_pieceList; }
 
 private:
     enum Direction

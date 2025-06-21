@@ -4,6 +4,12 @@
 #include <vector>
 
 typedef std::pair<size_t, size_t> Offset;
+inline Offset operator+(const Offset& lhs, const Offset& rhs)
+{
+    // Define how the addition should occur for the pair elements
+    return std::make_pair(lhs.first + rhs.first, lhs.second + rhs.second);
+}
+
 typedef std::list<Offset> OffsetList;
 
 class Rotation
@@ -36,4 +42,3 @@ private:
 };
 
 typedef std::vector<Rotation> RotationList;
-

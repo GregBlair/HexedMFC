@@ -7,17 +7,20 @@
 size_t constexpr TEST = - 1;
 size_t constexpr EMPTY = - 2;
 
+typedef std::vector<std::vector<size_t>> BoardOffsets;
+
 class Board
 {
 public:
-    Board(size_t x, size_t y, const PieceList& pieceList);
+    Board(size_t x, size_t y, const std::list<Piece>& pieceList, size_t m_blockCount);
 
 private:
-    const PieceList& m_pieceList;
+    const std::list<Piece>& m_pieceList;
     const size_t m_blockCount;
     const size_t m_xDim;
     const size_t m_yDim;
-    std::list<std::vector<std::vector<size_t>>> m_solutions;
+    std::list<BoardOffsets> m_solutions;
+    std::list<size_t> m_solutionHashes;
 
     enum OffsetState
     {
@@ -35,13 +38,24 @@ private:
         Right
     };
 
-    std::vector<std::vector<size_t>> m_board;
+    enum Corner
+    {
+        UpLeft,
+        DownLeft,
+        UpRight,
+        DownRight
+    };
+
+    BoardOffsets m_board;
 
     void GenerateSolutions(std::list<::Piece>::const_iterator nextPieceIter);
+    void AddSolution();
     bool PlaceRotation(size_t pieceNumber, const Offset& boardOffset, const Rotation& rotation);
     void PullRotation(const Offset& boardOffset, const Rotation& rotation);
     void CountEmptyBlocks(const Offset& testOffset, OffsetList& tested);
     void TestOffset(Direction direction, const Offset& boardOffset, OffsetList& tested);
+    size_t BuildSolutionHash(Corner corner, Direction direction);
+    size_t GetOffsetHash(size_t xOffset, size_t yOffset);
     OffsetState inline GetOffsetState(const Offset& offset)
     {
         OffsetState retVal;
@@ -73,11 +87,11 @@ private:
     {
         switch (state)
         {
-        case EMPTY:
-            m_board[boardOffset.first][boardOffset.second] = OffsetState::Empty;
+        case OffsetState::Empty:
+            m_board[boardOffset.first][boardOffset.second] = EMPTY;
             break;
-        case TEST:
-            m_board[boardOffset.first][boardOffset.second] = OffsetState::Test;
+        case OffsetState::Test:
+            m_board[boardOffset.first][boardOffset.second] = TEST;
             break;
         default:
             ASSERT(false);

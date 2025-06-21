@@ -8,8 +8,8 @@ class Piece :
 {
 public:
 
+    const RotationList& GetRotations() const { return m_rotations; }
     size_t m_number;
-    RotationList m_rotations;
     std::list<size_t> m_hashes;
 
     Piece(OffsetList offsets, size_t number);
@@ -17,6 +17,8 @@ public:
     bool isEquivalent(OffsetList offsets) const override;
 
 private:
+
+    RotationList m_rotations;
 
     void BuildRotations(const OffsetList& offsets);
     void AddRotation(const Rotation& rotation);

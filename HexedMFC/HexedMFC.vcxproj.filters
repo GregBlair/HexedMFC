@@ -75,6 +75,9 @@
     <ClInclude Include="CPieceListGridCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HexedMFC.cpp">
@@ -123,6 +126,9 @@
       <Filter>Puzzle Engine</Filter>
     </ClCompile>
     <ClCompile Include="CPieceListGridCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

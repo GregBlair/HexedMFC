@@ -3,19 +3,18 @@
 #include "Board.h"
 #include "Piece.h"
 
-Board::Board(size_t x, size_t y, const PieceList& pieceList) :
+Board::Board(size_t x, size_t y, const std::list<::Piece>& pieceList, size_t m_blockCount) :
     m_pieceList(pieceList),
-    m_blockCount(pieceList.GetBlockCount()),
+    m_blockCount(m_blockCount),
     m_xDim(x),
     m_yDim(y)
 {
-    m_board = std::vector<std::vector<size_t>>(x, std::vector<size_t>(y));
-    GenerateSolutions(m_pieceList.GetPieceList().begin());
+    m_board = std::vector<std::vector<size_t>>(x, std::vector<size_t>(y, EMPTY));
+    GenerateSolutions(m_pieceList.begin());
 }
 
 void Board::GenerateSolutions(std::list<::Piece>::const_iterator testPieceIter)
 {
-    const std::list<::Piece>& pieceList = m_pieceList.GetPieceList();
     // For each piece, try every rotation at every location.
     for (size_t boardXOffset = 0; boardXOffset < m_xDim; ++boardXOffset)
     {
@@ -28,9 +27,9 @@ void Board::GenerateSolutions(std::list<::Piece>::const_iterator testPieceIter)
                 {
                     std::list<::Piece>::const_iterator nextPieceIter = ++testPieceIter;
                     // If this is the last piece, we have a solution.
-                    if (nextPieceIter == pieceList.end())
+                    if (nextPieceIter == m_pieceList.end())
                     {
-                        m_solutions.push_back(m_board);
+                        AddSolution();
                     }
                     else
                     {
@@ -42,6 +41,29 @@ void Board::GenerateSolutions(std::list<::Piece>::const_iterator testPieceIter)
             }
         }
     }
+}
+
+void Board::AddSolution()
+{
+    // Use hash values to find duplicate (rotated or reflected) equivalent solutions.
+    size_t hash = BuildSolutionHash(Corner::UpLeft, Direction::Down);
+    if ((std::find(m_solutionHashes.begin(), m_solutionHashes.end(), hash) == m_solutionHashes.end()))
+    {
+        // This is a new solution.  Add all 4 hashes.
+        m_solutionHashes.push_back(hash);
+        m_solutionHashes.push_back(BuildSolutionHash(Corner::DownLeft, Direction::Up));
+        m_solutionHashes.push_back(BuildSolutionHash(Corner::DownRight, Direction::Up));
+        m_solutionHashes.push_back(BuildSolutionHash(Corner::UpRight, Direction::Down));
+        if (m_xDim == m_yDim)
+        {
+            // Catch the other 4 rotations/reflections.
+            m_solutionHashes.push_back(BuildSolutionHash(Corner::UpLeft, Direction::Right));
+            m_solutionHashes.push_back(BuildSolutionHash(Corner::DownLeft, Direction::Right));
+            m_solutionHashes.push_back(BuildSolutionHash(Corner::DownRight, Direction::Left));
+            m_solutionHashes.push_back(BuildSolutionHash(Corner::UpRight, Direction::Left));
+        }
+    }
+
 }
 
 bool Board::PlaceRotation(size_t pieceNumber, const Offset& boardOffset, const Rotation& rotation)
@@ -152,4 +174,111 @@ void Board::TestOffset(Direction direction, const Offset& testOffset, OffsetList
         break;
     }
     }
+}
+
+size_t Board::BuildSolutionHash(Corner corner, Direction direction)
+{
+    size_t retVal = 0;
+    switch (corner)
+    {
+    case Corner::UpLeft:
+        switch (direction)
+        {
+        case Direction::Down:
+            for (size_t y = m_blockCount - 1; y >= 0; --y)
+            {
+                for (size_t x = 0; x < m_blockCount; ++x)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        case Direction::Right:
+            for (size_t x = 0; x < m_blockCount; ++x)
+            {
+                for (size_t y = m_blockCount - 1; y >= 0; --y)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        }
+        break;
+    case Corner::UpRight:
+        switch (direction)
+        {
+        case Direction::Down:
+            for (size_t y = m_blockCount - 1; y >= 0; --y)
+            {
+                for (size_t x = m_blockCount - 1; x >= 0; --x)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        case Direction::Left:
+            for (size_t x = m_blockCount - 1; x >= 0; --x)
+            {
+                for (size_t y = m_blockCount - 1; y >= 0; --y)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        }
+        break;
+    case Corner::DownLeft:
+        switch (direction)
+        {
+        case Direction::Up:
+            for (size_t x = 0; x < m_blockCount; ++x)
+            {
+                for (size_t y = 0; y < m_blockCount; ++y)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        case Direction::Right:
+            for (size_t y = 0; y < m_blockCount; ++y)
+            {
+                for (size_t x = 0; x < m_blockCount; ++x)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        }
+        break;
+    case Corner::DownRight:
+        switch (direction)
+        {
+        case Direction::Up:
+            for (size_t y = 0; y < m_blockCount; ++y)
+            {
+                for (size_t x = m_blockCount - 1; x >= 0; --x)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        case Direction::Left:
+            for (size_t x = m_blockCount - 1; x >= 0; --x)
+            {
+                for (size_t y = 0; y < m_blockCount; ++y)
+                {
+                    retVal += GetOffsetHash(x, y);
+                }
+            }
+            break;
+        }
+        break;
+    }
+    return retVal;
+}
+
+size_t Board::GetOffsetHash(size_t xOffset, size_t yOffset)
+{
+    size_t pieceValue = m_board[xOffset][yOffset];
+    return 1009 * (pieceValue * xOffset + 1) + 10013 * (pieceValue * yOffset + 1);
 }

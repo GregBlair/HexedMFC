@@ -92,6 +92,7 @@ void CHexedMFCView::OnFilePrintPreview()
 void CHexedMFCView::OnSelectBlockCount()
 {
 	GetDocument()->SetBlockCount(5);
+	m_gridCntl.SetPieceList(GetDocument()->m_pieceList.GetPieceList());
 }
 
 void CHexedMFCView::OnSelectBlockCount1()

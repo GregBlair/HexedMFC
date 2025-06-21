@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "CPieceListGridCtrl.h"
 
 
 class CHexedMFCView : public CView
@@ -14,6 +15,7 @@ protected: // create from serialization only
 // Attributes
 public:
 	CHexedMFCDoc* GetDocument() const;
+	CPieceListGridCtrl m_gridCntl;
 
 // Operations
 public:
