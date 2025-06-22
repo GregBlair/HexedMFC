@@ -55,7 +55,7 @@ private:
     void CountEmptyBlocks(const Offset& testOffset, OffsetList& tested);
     void TestOffset(Direction direction, const Offset& boardOffset, OffsetList& tested);
     size_t BuildSolutionHash(Corner corner, Direction direction);
-    size_t GetOffsetHash(size_t xOffset, size_t yOffset);
+    size_t GetOffsetHash(size_t xBoardOffset, size_t yBoardOffset, size_t i, size_t j);
     OffsetState inline GetOffsetState(const Offset& offset)
     {
         OffsetState retVal;

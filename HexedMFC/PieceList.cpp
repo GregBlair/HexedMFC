@@ -118,7 +118,7 @@ void PieceList::TryOffsets(OffsetList& offsets)
 
     if (!found)
     {
-        m_pieceList.push_back(Piece(offsets, m_pieceList.size()));
+        m_pieceList.push_back(Piece(offsets, m_pieceList.size() + 1));
     }
 }
 
