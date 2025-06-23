@@ -24,7 +24,7 @@ void Board::GenerateSolutions(std::list<::Piece>::const_iterator testPieceIter)
             Offset rootOffset(boardXOffset, boardYOffset);
             for (const Rotation& rotation : testPieceIter->GetRotations())
             {
-                if (PlaceRotation(testPieceIter->m_number, rootOffset, rotation))
+                if (PlaceRotation(testPieceIter->GetPieceNumber(), rootOffset, rotation))
                 {
                     std::list<::Piece>::const_iterator nextPieceIter = ++testPieceIter;
                     // If this is the last piece, we have a solution and the iterator is invalid.
@@ -74,7 +74,7 @@ bool Board::PlaceRotation(size_t pieceNumber, const Offset& boardOffset, const R
 {
     bool retVal = true;
     // First test all offsets in the rotation
-    for (const Offset& rotationOffset : rotation.m_offsets)
+    for (const Offset& rotationOffset : rotation.GetOffsets())
     {
         if (GetOffsetState(boardOffset + rotationOffset) != OffsetState::Empty)
         {
@@ -86,13 +86,13 @@ bool Board::PlaceRotation(size_t pieceNumber, const Offset& boardOffset, const R
     if (retVal)
     {
         // Temporarily place the rotation to test it out.
-        for (const Offset& rotationOffset : rotation.m_offsets)
+        for (const Offset& rotationOffset : rotation.GetOffsets())
         {
             MarkBoardOffset(boardOffset + rotationOffset, pieceNumber);
         }
 
         // Test every border offset for this rotation by counting the connected block count.
-        for (const Offset& borderOffset : rotation.m_borderingOffsets)
+        for (const Offset& borderOffset : rotation.GetBorderingOffsets())
         {
             Offset testOffset(boardOffset + borderOffset);
             // If the border rotationOffset is empty, count the available connected blocks.
@@ -106,7 +106,7 @@ bool Board::PlaceRotation(size_t pieceNumber, const Offset& boardOffset, const R
                     MarkBoardOffset(offsetToClear, OffsetState::Empty);
                 }
                 // If counting the connected empty blocks is not a multiple of the block count, then the placement is invalid.
-                if (tested.size() % rotation.m_offsets.size() == 0)
+                if (tested.size() % rotation.GetOffsets().size() == 0)
                 {
                     break;
                 }
@@ -124,7 +124,7 @@ bool Board::PlaceRotation(size_t pieceNumber, const Offset& boardOffset, const R
 
 void Board::PullRotation(const Offset& boardOffset, const Rotation& rotation)
 {
-    for (const Offset& offset : rotation.m_offsets)
+    for (const Offset& offset : rotation.GetOffsets())
     {
         MarkBoardOffset(boardOffset + offset, OffsetState::Empty);
     }

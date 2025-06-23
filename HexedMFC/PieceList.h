@@ -1,16 +1,19 @@
 #pragma once
 
-#include <list>
-#include "Piece.h"
+#include "IPieceList.h"
 
-class PieceList
+#include <list>
+
+class PieceList : public IPieceList
 {
 public:
     PieceList();
-    bool SetBlockCount(size_t blockCount);
-    void TestCombos();
-    size_t GetBlockCount() const { return m_blockCount; }
-    const std::list<Piece>& GetPieceList() const{ return m_pieceList; }
+
+    bool SetBlockCount(size_t blockCount) override;
+    void TestCombos() override;
+
+    size_t GetBlockCount() const override { return m_blockCount; }
+    const std::list<Piece>& GetPieceList() const override { return m_pieceList; }
 
 private:
     enum Direction

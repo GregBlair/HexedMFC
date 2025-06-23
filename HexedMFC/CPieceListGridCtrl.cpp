@@ -17,7 +17,7 @@ void CPieceListGridCtrl::SetPieceList(const std::list<Piece>& pieceList)
 
 void CPieceListGridCtrl::DetermineBoards()
 {
-	size_t blockCount = m_pieceList.begin()->GetRotations().begin()->m_offsets.size();
+	size_t blockCount = m_pieceList.begin()->GetRotations().begin()->GetOffsets().size();
 	// Determine the smallest maximum dim of all rotations and use that to eliminate grids that are too small.
 
 	size_t minimumDim = blockCount;
@@ -28,7 +28,7 @@ void CPieceListGridCtrl::DetermineBoards()
 		size_t maximumYOffset = 0;
 		for (const Rotation& rotation : piece.GetRotations())
 		{
-			for (Offset offset : rotation.m_offsets)
+			for (const Offset& offset : rotation.GetOffsets())
 			{
 				maximumXOffset = max(maximumXOffset, offset.first);
 				maximumYOffset = max(maximumYOffset, offset.second);

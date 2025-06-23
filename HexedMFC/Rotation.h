@@ -3,6 +3,8 @@
 #include <list>
 #include <vector>
 
+#include "IRotation.h"
+
 typedef std::pair<size_t, size_t> Offset;
 inline Offset operator+(const Offset& lhs, const Offset& rhs)
 {
@@ -12,19 +14,18 @@ inline Offset operator+(const Offset& lhs, const Offset& rhs)
 
 typedef std::list<Offset> OffsetList;
 
-class Rotation
+class Rotation : public IRotation
 {
 public:
-    OffsetList m_offsets;
-    OffsetList m_borderingOffsets;
-    size_t m_hash;
-    Offset m_maxOffset;
-
     Rotation(const Rotation& rotation);
     Rotation(const OffsetList& offsets);
     Rotation() = delete;
     void Rotate90();
     void ReflectOverX();
+
+    inline OffsetList GetOffsets() const { return m_offsets; }
+    inline OffsetList GetBorderingOffsets() const { return m_borderingOffsets; }
+    inline size_t GetHash() const { return m_hash; }
 
 private:
     enum Direction
@@ -34,6 +35,11 @@ private:
         Left,
         Right
     };
+
+    size_t m_hash;
+    Offset m_maxOffset;
+    OffsetList m_offsets;
+    OffsetList m_borderingOffsets;
 
     void BuildHash();
     void Normalize();

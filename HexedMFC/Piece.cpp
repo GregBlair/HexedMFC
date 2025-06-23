@@ -4,16 +4,15 @@
 
 Piece::Piece(OffsetList offsets, size_t number)
 {
-    Rotation rotation(offsets);
     // Add the seed offset list as the default orientation.
     m_number = number;
     BuildRotations(offsets);
 }
 
-bool Piece::isEquivalent(OffsetList offsets) const
+bool Piece::IsEquivalent(OffsetList offsets) const
 {
     Rotation testRotation(offsets);
-    return std::find(m_hashes.begin(), m_hashes.end(), testRotation.m_hash) != m_hashes.end();
+    return std::find(m_hashes.begin(), m_hashes.end(), testRotation.GetHash()) != m_hashes.end();
 }
 
 void Piece::BuildRotations(const OffsetList& offsets)
@@ -28,19 +27,19 @@ void Piece::BuildRotations(const OffsetList& offsets)
 void Piece::AddRotation(const Rotation& rotation)
 {
     m_rotations.push_back(rotation);
-    m_hashes.push_back(rotation.m_hash);
+    m_hashes.push_back(rotation.GetHash());
 }
 
 void Piece::TestFourRotations(Rotation& rotation)
 {
-    if ((std::find(m_hashes.begin(), m_hashes.end(), rotation.m_hash) == m_hashes.end()))
+    if ((std::find(m_hashes.begin(), m_hashes.end(), rotation.GetHash()) == m_hashes.end()))
     {
         AddRotation(rotation);
         // Rotate and add if the rotations produce a unique footprint
         for (int i = 0; i < 4; ++i)
         {
             rotation.Rotate90();
-            if ((std::find(m_hashes.begin(), m_hashes.end(), rotation.m_hash) == m_hashes.end()))
+            if ((std::find(m_hashes.begin(), m_hashes.end(), rotation.GetHash()) == m_hashes.end()))
             {
                 // Rotating 4 times should produce the same block pattern.
                 ASSERT(i != 3);

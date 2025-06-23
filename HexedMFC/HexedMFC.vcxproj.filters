@@ -78,6 +78,12 @@
     <ClInclude Include="Board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IRotation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IPieceList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HexedMFC.cpp">
@@ -113,9 +119,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IPiece.cpp">
-      <Filter>Puzzle Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Piece.cpp">
       <Filter>Puzzle Engine</Filter>
     </ClCompile>
@@ -129,7 +132,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Board.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Puzzle Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

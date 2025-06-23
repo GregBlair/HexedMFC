@@ -193,6 +193,8 @@
     <ClInclude Include="HexedMFCDoc.h" />
     <ClInclude Include="HexedMFCView.h" />
     <ClInclude Include="IPiece.h" />
+    <ClInclude Include="IPieceList.h" />
+    <ClInclude Include="IRotation.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
@@ -213,7 +215,6 @@
     <ClCompile Include="HexedMFC.cpp" />
     <ClCompile Include="HexedMFCDoc.cpp" />
     <ClCompile Include="HexedMFCView.cpp" />
-    <ClCompile Include="IPiece.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">

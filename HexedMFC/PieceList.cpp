@@ -109,7 +109,7 @@ void PieceList::TryOffsets(OffsetList& offsets)
     bool found = false;
     for (const Piece& piece : m_pieceList)
     {
-        if (piece.isEquivalent(offsets))
+        if (piece.IsEquivalent(offsets))
         {
             found = true;
             break;

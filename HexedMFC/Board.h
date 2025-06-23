@@ -12,9 +12,12 @@ typedef std::vector<std::vector<size_t>> BoardOffsets;
 class Board
 {
 public:
+
     Board(size_t x, size_t y, const std::list<Piece>& pieceList, size_t m_blockCount);
+    Board() = delete;
 
 private:
+
     const std::list<Piece>& m_pieceList;
     const size_t m_blockCount;
     const size_t m_xDim;
