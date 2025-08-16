@@ -4,7 +4,7 @@ https://www.nobleknight.com/P/2147797442/Hexed?srsltid=AfmBOopvzovwjiKASsxSvs2Dx
 Basically, it was all 12 possible combinations of pieces composed of 5 contiguous blocks and figuring out how they fit into a 10 X 6 rectangle.
 The version I received stated there were 2339 ways to fit these pieces into a rectangle.
 Decades ago, I verified the 12 pieces by pencil and paper and verified the 2339 (10 X 6) solutions with a brute force C++ solution.
-Incidentally, I also found 4 solutions for a 20 X 3 rectangle.
+Incidentally, I also found 2 solutions for a 20 X 3 rectangle.
 
 This suggests a more generic approach.  I am currently unemployed and intend to use this project to demonstrate my C++ skills.
 
